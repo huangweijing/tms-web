@@ -8,6 +8,7 @@
     </nav> -->
     <router-link to="/ExamPaper">Go ExamPaper!</router-link>
     <router-link to="/ExamPaper2">Go ExamPaper2!</router-link>
+    <router-link to="/TalentView">Go TalentView!</router-link>
     <router-view />
   </div>
 </template>
