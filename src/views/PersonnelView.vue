@@ -29,18 +29,6 @@
         <v-btn color="secondary">キャンセル</v-btn>
       </v-card-actions>
     </v-card>
-    <!-- 
-    <div class="footer">
-      <BasePaginator
-        :page="page"
-        :size="size"
-        :total="total"
-        :sizes="[5,10,20,50]"
-        @update:page="(v:number)=>{ page=v; fetchList(); }"
-        @update:size="(v:number)=>{ size=v; page=1; fetchList(); }"
-      />
-      <div class="label">更新: {{ lastUpdated }}</div>
-    </div> -->
 
     <PersonnelEditor :open="editorOpen" :value="editing" @cancel="closeEditor" @save="save" />
   </div>

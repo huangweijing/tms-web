@@ -107,15 +107,36 @@
 </script>
 
 <template>
-  <v-dialog :model-value="open" max-width="900" persistent>
+  <v-dialog :model-value="open" max-width="900" max-height="500" persistent>
     <v-card>
-      <v-toolbar density="comfortable" color="primary" title="スキル管理" />
+      <v-toolbar density="comfortable" color="gray">
+        <v-toolbar-title>スキル管理</v-toolbar-title>
+
+        <v-card-actions class="justify-space-between">
+          <div class="d-flex ga-2">
+            <v-btn color="secondary" :prepend-icon="'mdi-plus'" @click="onAdd">新規登録</v-btn>
+          </div>
+          <div class="d-flex ga-2">
+            <v-btn
+              color="primary"
+              :prepend-icon="'mdi-content-save'"
+              :disabled="!isDirty || saving"
+              :loading="saving"
+              @click="onSave"
+              >保存</v-btn
+            >
+            <v-btn color="default" :prepend-icon="'mdi-close'" @click="onClose">閉じる</v-btn>
+          </div>
+        </v-card-actions>
+      </v-toolbar>
       <v-card-text>
         <div class="text-caption mb-2">人材ＩＤ: {{ 人材ＩＤ }}</div>
 
         <!-- <v-alert v-if="!isDirty" type="info" variant="tonal" class="mb-3">
           変更はありません。保存ボタンは無効です。
         </v-alert> -->
+
+        <v-divider />
 
         <v-skeleton-loader v-if="loading" type="table" />
         <v-data-table
@@ -132,11 +153,11 @@
           hide-default-footer
         >
           <template #item.スキル名="{ item }">
-            <div class="d-flex ga-2 align-center justify-end">
+            <div class="d-flex ga-2 cell-center">
               <v-text-field
                 v-model="item.スキル名"
                 variant="outlined"
-                density="comfortable"
+                density="compact"
                 placeholder="例）Java"
                 @update:model-value="onEdit(item)"
               />
@@ -144,54 +165,42 @@
           </template>
 
           <template #item.スキル点数="{ item }">
-            <v-text-field
-              v-model.number="item.スキル点数"
-              type="number"
-              min="0"
-              max="100"
-              step="1"
-              variant="outlined"
-              density="comfortable"
-              @update:model-value="onEdit(item)"
-            />
+            <div class="cell-center">
+              <v-text-field
+                v-model.number="item.スキル点数"
+                type="number"
+                min="0"
+                max="100"
+                step="1"
+                variant="outlined"
+                density="compact"
+                @update:model-value="onEdit(item)"
+              />
+            </div>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex ga-2 justify-end">
-              <!-- <v-btn
-                size="small"
-                color="primary"
-                variant="tonal"
-                @click="onEdit(item)"
-                :prepend-icon="'mdi-pencil'"
-                >編集</v-btn
-              > -->
               <v-btn color="error" :prepend-icon="'mdi-delete'" @click="onDelete(item)">削除</v-btn>
             </div>
           </template>
         </v-data-table>
       </v-card-text>
-
-      <v-divider />
-
-      <v-card-actions class="justify-space-between">
-        <div class="d-flex ga-2">
-          <v-btn color="secondary" :prepend-icon="'mdi-plus'" @click="onAdd">新規登録</v-btn>
-        </div>
-        <div class="d-flex ga-2">
-          <v-btn
-            color="primary"
-            :prepend-icon="'mdi-content-save'"
-            :disabled="!isDirty || saving"
-            :loading="saving"
-            @click="onSave"
-            >保存</v-btn
-          >
-          <v-btn color="default" :prepend-icon="'mdi-close'" @click="onClose">閉じる</v-btn>
-        </div>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
-<style scoped></style>
+<style scoped>
+  /* ✅ v-text-field の高さ制御 */
+  .cell-center {
+    display: flex;
+    align-items: center; /* 垂直中央寄せ */
+    height: 100%;
+  }
+
+  /* ✅ フィールドを上下中央に合わせる */
+  .cell-center .v-field {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+</style>
